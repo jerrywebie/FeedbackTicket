@@ -8,6 +8,8 @@ export default StyleSheet.create({
     light: '#F1F1F1',
     gray: '#808080',
     lightGray: '#c1c1c1',
+    paleGreen: '#f0f8f1',
+    textGreen: '#6cc173',
   },
   standard: {
     baseFour: 4,
