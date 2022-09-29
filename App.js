@@ -1,66 +1,40 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import Splash from './src/screens/Splash';
+import TicketList from './src/screens/TicketList';
+import NewTicket from './src/screens/NewTicket';
 
-
-
-const App: () => Node = () => {
-
-
+const Stack = createNativeStackNavigator();
+function App() {
   return (
-    <SafeAreaView>
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-      >
-        <View>
-          <Text>Feedback Ticket app setup</Text>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Splash"
+          component={Splash}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="TicketList"
+          component={TicketList}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="NewTicket"
+          component={NewTicket}
+          options={({route}) => ({
+            title: route.params.name,
+            headerTitleStyle: {
+              textTransform: 'uppdercase',
+              fontFamily: 'Poppins-Regular',
+            },
+          })}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-};
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+}
 
 export default App;
