@@ -7,8 +7,10 @@ export default StyleSheet.create({
     red: '#F52A2A',
     light: '#F1F1F1',
     gray: '#808080',
+    darkGray: '#545453',
     lightGray: '#c1c1c1',
     paleGreen: '#f0f8f1',
+    lightGreen: '#d4ecd6',
     textGreen: '#6cc173',
   },
   standard: {
