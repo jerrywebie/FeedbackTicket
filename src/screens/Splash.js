@@ -20,9 +20,7 @@ const Splash = ({navigation}) => {
           resizeMode="contain"
           style={styles.splashImage}
         />
-        <Text style={styles.splashText}>
-          FeedbackTicket
-        </Text>
+        <Text style={styles.splashText}>FeedbackTicket</Text>
       </View>
       <View style={styles.developedBy}>
         <Text style={styles.developerName}>developed by PHYU ZIN</Text>
@@ -45,8 +43,6 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     width: Styles.standard.baseTwenty * 14,
     height: Styles.standard.baseTwenty * 14,
-    //borderColor: Styles.colors.white,
-    // borderRadius: Styles.standard.baseTwenty * 3,
   },
   splashText: {
     alignSelf: 'center',
