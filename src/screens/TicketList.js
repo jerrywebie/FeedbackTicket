@@ -26,6 +26,49 @@ const TicketList = () => {
     console.log('Press me!');
   };
 
+  const cardTitle = item => (
+    <View style={styles.cardTitleContainer}>
+      <Text style={styles.heading}>{item.title}</Text>
+      <View style={styles.statusWrapper}>
+        <TicketStatus itemStatus={item.status} />
+      </View>
+
+      <MaterialCommunityIcons
+        name={item.id === currentIndex ? 'chevron-up' : 'chevron-down'}
+        color={Styles.colors.gray}
+        size={26}
+      />
+    </View>
+  );
+
+  const cardContent = item => (
+    <View style={styles.content}>
+      <DetailText title="Issue Type" text={item.issued_type} />
+      <DetailText title="Request Date" text={item.request_date} />
+      {item.solved_date ? (
+        <DetailText title="Solved Date" text={item.solved_date} />
+      ) : (
+        <></>
+      )}
+      <DetailText title="Requester Name" text={item.requester_name} />
+      <DetailText title="Feedback" text={item.feedback} />
+      <DetailText title="Assignee" text={item.assignee} />
+      <Pressable
+        onPress={onPressHandler}
+        style={({pressed}) => [
+          {backgroundColor: pressed ? '#FF2400' : 'black'},
+          styles.editButton,
+        ]}>
+        <MaterialCommunityIcons
+          name="pen"
+          color={Styles.colors.gray}
+          size={16}
+        />
+        <Text style={styles.buttonText}>Edit</Text>
+      </Pressable>
+    </View>
+  );
+
   const renderItem = ({item}) => (
     <TouchableOpacity
       onPress={() => {
@@ -34,45 +77,8 @@ const TicketList = () => {
       style={styles.cardContainer}
       activeOpacity={0.9}>
       <View style={styles.card}>
-        <View style={styles.cardTitleContainer}>
-          <Text style={styles.heading}>{item.title}</Text>
-          <View style={styles.statusWrapper}>
-            <TicketStatus itemStatus={item.status} />
-          </View>
-
-          <MaterialCommunityIcons
-            name={item.id === currentIndex ? 'chevron-up' : 'chevron-down'}
-            color={Styles.colors.gray}
-            size={26}
-          />
-        </View>
-        {item.id === currentIndex && (
-          <View style={styles.content}>
-            <DetailText title="Issue Type" text={item.issued_type} />
-            <DetailText title="Request Date" text={item.request_date} />
-            {item.solved_date ? (
-              <DetailText title="Solved Date" text={item.solved_date} />
-            ) : (
-              <></>
-            )}
-            <DetailText title="Requester Name" text={item.requester_name} />
-            <DetailText title="Feedback" text={item.feedback} />
-            <DetailText title="Assignee" text={item.assignee} />
-            <Pressable
-              onPress={onPressHandler}
-              style={({pressed}) => [
-                {backgroundColor: pressed ? '#FF2400' : 'black'},
-                styles.editButton,
-              ]}>
-              <MaterialCommunityIcons
-                name="pen"
-                color={Styles.colors.gray}
-                size={16}
-              />
-              <Text style={styles.buttonText}>Edit</Text>
-            </Pressable>
-          </View>
-        )}
+        {cardTitle(item)}
+        {item.id === currentIndex && cardContent(item)}
       </View>
     </TouchableOpacity>
   );
@@ -117,7 +123,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 10,
   },
-
   heading: {
     fontSize: 18,
     justifyContent: 'flex-start',
