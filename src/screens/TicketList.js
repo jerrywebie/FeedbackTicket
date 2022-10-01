@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Pressable,
+  Platform,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -15,15 +16,17 @@ import Styles from '../utility/styles';
 
 import DetailText from '../components/DetailText';
 import TicketStatus from '../components/TicketStatus';
+import FloatingButton from '../components/FlotaingButton';
 
 const screenHeight = Dimensions.get('screen').height;
 
-const TicketList = () => {
+const TicketList = ({navigation}) => {
   const [currentIndex, setCurrentIndex] = useState(null);
   const {Tickets} = data;
 
-  const onPressHandler = () => {
-    console.log('Press me!');
+  const addOrEditTicket = item => {
+    const ticketId = item ? item.id : null;
+    navigation.navigate('NewTicket', {ticketId: ticketId});
   };
 
   const getBorderColor = status => {
@@ -46,12 +49,12 @@ const TicketList = () => {
     }
   };
 
-  const cardTitle = item => (
+  const renderCardTitle = item => (
     <View
       style={[
         styles.cardTitleContainer,
-        getBorderColor(item.status),
         {borderLeftWidth: item.id === currentIndex ? 0 : 4},
+        getBorderColor(item.status),
       ]}>
       <Text style={styles.heading}>{item.title}</Text>
 
@@ -63,21 +66,10 @@ const TicketList = () => {
     </View>
   );
 
-  const cardContent = item => (
+  const renderCardContent = item => (
     <View style={styles.content}>
-      <TicketStatus title="Status" itemStatus={item.status} />
-      <DetailText title="Issue Type" text={item.issued_type} />
-      <DetailText title="Request Date" text={item.request_date} />
-      {item.solved_date ? (
-        <DetailText title="Solved Date" text={item.solved_date} />
-      ) : (
-        <></>
-      )}
-      <DetailText title="Requester Name" text={item.requester_name} />
-      <DetailText title="Feedback" text={item.feedback} />
-      <DetailText title="Assignee" text={item.assignee} />
       <Pressable
-        onPress={onPressHandler}
+        onPress={() => addOrEditTicket(item)}
         style={({pressed}) => [
           {backgroundColor: pressed ? '#FF2400' : 'black'},
           styles.editButton,
@@ -89,6 +81,17 @@ const TicketList = () => {
         />
         <Text style={styles.buttonText}>Edit</Text>
       </Pressable>
+      <TicketStatus title="Status" itemStatus={item.status} />
+      <DetailText title="Issue Type" text={item.issued_type} />
+      <DetailText title="Request Date" text={item.request_date} />
+      {item.solved_date ? (
+        <DetailText title="Solved Date" text={item.solved_date} />
+      ) : (
+        <></>
+      )}
+      <DetailText title="Requester Name" text={item.requester_name} />
+      <DetailText title="Feedback" text={item.feedback} />
+      <DetailText title="Assignee" text={item.assignee} />
     </View>
   );
 
@@ -100,8 +103,8 @@ const TicketList = () => {
       style={styles.cardContainer}
       activeOpacity={0.9}>
       <View style={styles.card}>
-        {cardTitle(item)}
-        {item.id === currentIndex && cardContent(item)}
+        {renderCardTitle(item)}
+        {item.id === currentIndex && renderCardContent(item)}
       </View>
     </TouchableOpacity>
   );
@@ -114,6 +117,7 @@ const TicketList = () => {
         keyExtractor={item => item.id}
         extraData={currentIndex}
       />
+      <FloatingButton iconName="plus" onPress={addOrEditTicket} />
     </View>
   );
 };
@@ -122,8 +126,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: Styles.colors.paleGreen,
+    backgroundColor: '#f9f9f9',
     paddingVertical: 10,
+    position: 'relative',
   },
   cardContainer: {
     flexGrow: 1,
@@ -131,12 +136,18 @@ const styles = StyleSheet.create({
     borderWidth: 0.2,
     marginHorizontal: 10,
     marginVertical: 8,
-    borderColor: '#f1f1f1',
+    borderColor: '#ffffff',
     borderRadius: 4,
-    shadowColor: '#f2f2f1',
-    shadowOffset: {width: 5, height: 5},
-    shadowOpacity: 0.26,
-    elevation: 4,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#f2f2f1',
+        shadowOffset: {width: 5, height: 5},
+        shadowOpacity: 0.26,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
   },
   card: {
     flexGrow: 1,
@@ -173,16 +184,15 @@ const styles = StyleSheet.create({
   content: {
     marginHorizontal: 10,
     marginVertical: 16,
-    backgroundColor: '#f8faf7',
-    borderWidth: 0.4,
+    backgroundColor: Styles.colors.paleGreen,
+    borderWidth: 0.1,
     borderColor: Styles.colors.lightGreen,
-    opacity: 0.9,
     borderRadius: 4,
-    padding: 8,
+    padding: 10,
   },
   editButton: {
     backgroundColor: Styles.colors.lightGreen,
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     borderWidth: 1,
     borderColor: Styles.colors.lightGreen,
     borderRadius: 4,
