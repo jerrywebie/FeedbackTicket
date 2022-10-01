@@ -1,6 +1,11 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, Text} from 'react-native';
 
-export default function NewTicket() {
-  return <View>Add a new ticket</View>;
-}
+const NewTicket = ({route}) => {
+  const {ticketId} = route.params;
+  return <View>
+    <Text>Add or edit ticket {ticketId}</Text>
+    </View>;
+};
+
+export default NewTicket;
