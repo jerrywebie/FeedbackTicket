@@ -26,12 +26,34 @@ const TicketList = () => {
     console.log('Press me!');
   };
 
+  const getBorderColor = status => {
+    if (status === 'closed') {
+      return {
+        borderColor: Styles.colors.darkGray,
+      };
+    } else if (status === 'solved') {
+      return {
+        borderColor: '#6cc173',
+      };
+    } else if (status === 'open') {
+      return {
+        borderColor: '#00599a',
+      };
+    } else {
+      return {
+        borderColor: '#ffca2e',
+      };
+    }
+  };
+
   const cardTitle = item => (
-    <View style={styles.cardTitleContainer}>
+    <View
+      style={[
+        styles.cardTitleContainer,
+        getBorderColor(item.status),
+        {borderLeftWidth: item.id === currentIndex ? 0 : 4},
+      ]}>
       <Text style={styles.heading}>{item.title}</Text>
-      <View style={styles.statusWrapper}>
-        <TicketStatus itemStatus={item.status} />
-      </View>
 
       <MaterialCommunityIcons
         name={item.id === currentIndex ? 'chevron-up' : 'chevron-down'}
@@ -43,6 +65,7 @@ const TicketList = () => {
 
   const cardContent = item => (
     <View style={styles.content}>
+      <TicketStatus title="Status" itemStatus={item.status} />
       <DetailText title="Issue Type" text={item.issued_type} />
       <DetailText title="Request Date" text={item.request_date} />
       {item.solved_date ? (
@@ -110,6 +133,9 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     borderColor: '#f1f1f1',
     borderRadius: 4,
+    shadowColor: '#f2f2f1',
+    shadowOffset: {width: 5, height: 5},
+    shadowOpacity: 0.26,
     elevation: 4,
   },
   card: {
@@ -122,8 +148,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     paddingHorizontal: 10,
+    borderTopLeftRadius: 4,
+    borderBottomLeftRadius: 4,
   },
   heading: {
+    flex: 1,
     fontSize: 18,
     justifyContent: 'flex-start',
     color: Styles.colors.darkGray,
@@ -145,8 +174,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 16,
     backgroundColor: '#f8faf7',
-    opacity: 0.8,
+    borderWidth: 0.4,
+    borderColor: Styles.colors.lightGreen,
+    opacity: 0.9,
     borderRadius: 4,
+    padding: 8,
   },
   editButton: {
     backgroundColor: Styles.colors.lightGreen,
