@@ -20,7 +20,7 @@ const FloatingButton = ({iconName, onPress}) => {
       <MaterialCommunityIcons
         name={iconName}
         color={Styles.colors.white}
-        size={36}
+        size={30}
       />
     </Pressable>
   );
