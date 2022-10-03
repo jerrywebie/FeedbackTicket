@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import CustomStatusBar from '../components/CustomStatusBar';
 import data from '../api/data';
 import Styles from '../utility/styles';
 
@@ -111,6 +112,7 @@ const TicketList = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <CustomStatusBar backgroundColor={Styles.colors.lightGreen}/>
       <FlatList
         data={Tickets}
         renderItem={renderItem}

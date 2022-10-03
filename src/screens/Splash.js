@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {View, Text, StyleSheet, StatusBar, Image} from 'react-native';
 
+import CustomStatusBar from '../components/CustomStatusBar';
 import splashImage from '../assets/images/splash.jpg';
 import Styles from '../utility/styles';
 
@@ -13,7 +14,7 @@ const Splash = ({navigation}) => {
   return (
     <View
       style={[styles.container, {backgroundColor: Styles.colors.paleGreen}]}>
-      <StatusBar hidden={true} />
+      <CustomStatusBar backgroundColor={Styles.colors.paleGreen} />
       <View style={styles.imageContainer}>
         <Image
           source={splashImage}
