@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TextInput, StyleSheet} from 'react-native';
+import {View, Text, TextInput, StyleSheet, Platform} from 'react-native';
 import {Controller} from 'react-hook-form';
 
 import Styles from '../utility/styles';
@@ -36,7 +36,7 @@ const FormTextInput = ({
           <View
             style={[
               styles.container,
-              {width: size === 'half' ? '98%' : null},
+              {marginLeft: size === 'half' ? 4 : null},
               {borderColor: error ? 'red' : '#e8e8e8'},
             ]}>
             <TextInput
@@ -58,12 +58,21 @@ const FormTextInput = ({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    width: '100%',
     borderColor: '#e8e8e8',
     borderWidth: 0.5,
     borderRadius: 5,
     paddingHorizontal: 10,
     marginVertical: 5,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#f1f1f1',
+        shadowOffset: {width: 5, height: 5},
+        shadowOpacity: 0.28,
+      },
+      android: {
+        elevation: 1,
+      },
+    }),
   },
   input: {
     textAlignVertical: 'top',

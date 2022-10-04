@@ -1,7 +1,12 @@
-import React from 'react';
-import {View, Text, Dimensions, StyleSheet, ScrollView} from 'react-native';
+import React, {useState, useLayoutEffect} from 'react';
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
-
 
 import CustomStatusBar from '../components/CustomStatusBar';
 import FormTextInput from '../components/FormTextInput';
@@ -11,7 +16,9 @@ import Styles from '../utility/styles';
 
 const {height, width} = Dimensions.get('screen');
 
+
 const NewTicket = ({route, navigation}) => {
+  const [scrollY, setScrollY] = useState(0);
   const {ticketId} = route.params;
   const {
     control,
@@ -20,13 +27,24 @@ const NewTicket = ({route, navigation}) => {
     formState: {errors},
   } = useForm();
 
+  useLayoutEffect(() => {
+    scrollY > 5 && navigation.setOptions({headerShown: false});
+    scrollY === 0 && navigation.setOptions({headerShown: true});
+  }, [scrollY, navigation]);
+
   const onSave = data => {
     console.log('data=', data);
     // navigation.navigate('TicketList');
   };
+
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      onScroll={e => {
+        setScrollY(e.nativeEvent.contentOffset.y);
+      }}>
       <CustomStatusBar backgroundColor={Styles.colorslightGreen} />
+
       <View style={styles.formContainer}>
         <Text style={styles.formTitle}>
           {ticketId ? 'Edit Ticket' : 'Add Ticket'}
@@ -59,7 +77,7 @@ const NewTicket = ({route, navigation}) => {
             multiline={false}
             numberOfLines={1}
             control={control}
-            rules={{required: 'Assignee*'}}
+            rules={{required: 'Ticket Status*'}}
           />
         </View>
         <View style={{...styles.formRow, justifyContent: 'flex-start'}}>
@@ -90,7 +108,7 @@ const NewTicket = ({route, navigation}) => {
             placeholder="Feedback"
             size="full"
             multiline={true}
-            numberOfLines={6}
+            numberOfLines={10}
             control={control}
             rules={{required: 'Feedback*'}}
           />
@@ -123,7 +141,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 60,
+    marginTop: 46,
   },
   formRow: {
     flex: 1,
