@@ -3,6 +3,8 @@ import {Pressable} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { store } from './src/redux/store';
+import { Provider } from 'react-redux';
 
 import Styles from './src/utility/styles';
 
@@ -35,7 +37,6 @@ function App() {
             headerLeft: () => (
               <Pressable
                 onPress={() => navigation.navigate('TicketList')}
-               
                 >
                 <MaterialCommunityIcons
                   name="chevron-left"
@@ -51,4 +52,11 @@ function App() {
   );
 }
 
-export default App;
+export default () => {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+};
+
