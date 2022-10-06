@@ -113,18 +113,18 @@ export default {
   ],
   Developers: [
     {
-      id: 'd_001',
-      name: 'Amy',
+      key: 'd_001',
+      value: 'Amy',
       position: 'developer',
     },
     {
-      id: 'd_002',
-      name: 'John',
+      key: 'd_002',
+      value: 'John',
       position: 'team lead',
     },
     {
-      id: 'd_003',
-      name: 'Tommy',
+      key: 'd_003',
+      value: 'Tommy',
       position: 'junior programmer',
     },
   ],

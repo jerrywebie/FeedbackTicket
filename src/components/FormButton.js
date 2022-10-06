@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, StyleSheet, Pressable} from 'react-native';
+import {Text, StyleSheet, Pressable, Platform} from 'react-native';
 
 import Styles from '../utility/styles';
 
@@ -28,7 +28,17 @@ const styles = StyleSheet.create({
     padding: 15,
     alignItems: 'center',
     borderRadius: 5,
-    marginLeft: 2,
+    marginLeft: 4,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#f1f1f1',
+        shadowOffset: {width: 5, height: 5},
+        shadowOpacity: 0.28,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
   },
   text: {
     fontWeight: 'bold',
